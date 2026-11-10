@@ -378,7 +378,7 @@ interface ToastItem {
   id: number;
   title: ReactNode;
   description?: ReactNode;
-  tone: Exclude<Tone, "primary" | "neutral">;
+  tone: Exclude<Tone, "primary" | "neutral" | "accent">;
   action?: { label: string; onClick: () => void };
 }
 
