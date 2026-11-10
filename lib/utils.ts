@@ -1,6 +1,6 @@
 import { appConfig } from "./config";
 
-/** Join class names, skipping anything that isn't a non-empty string (false, 0, "", null…). */
+/** Join class names, skipping falsy values. */
 export function cn(...classes: unknown[]): string {
   return classes.filter((c): c is string => typeof c === "string" && c.length > 0).join(" ");
 }
@@ -42,4 +42,14 @@ export function initials(name: string): string {
     .slice(0, 2)
     .map((p) => p[0]!.toUpperCase())
     .join("");
+}
+
+/** Short money for charts and tiles: 1245800 -> "12.5L", 95000 -> "95K", 31500000 -> "3.2Cr" (lakh / crore). */
+export function formatCompact(value: number): string {
+  const a = Math.abs(value);
+  const fmt = (n: number, s: string) => `${n >= 100 ? Math.round(n) : Number(n.toFixed(1))}${s}`;
+  if (a >= 1e7) return fmt(value / 1e7, "Cr");
+  if (a >= 1e5) return fmt(value / 1e5, "L");
+  if (a >= 1e3) return fmt(value / 1e3, "K");
+  return formatNumber(value);
 }

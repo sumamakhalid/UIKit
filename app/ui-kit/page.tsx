@@ -36,6 +36,21 @@ import {
   Skeleton,
   Spinner,
   StatCard,
+  BarChart,
+  Checklist,
+  DateChip,
+  DateRangePicker,
+  Delta,
+  DotChart,
+  LegendDot,
+  Meter,
+  PillSelect,
+  ReminderCard,
+  SectionLabel,
+  StepDots,
+  WorkspacePill,
+  type ChecklistItem,
+  type DateRange,
   StockBadge,
   Switch,
   Tabs,
@@ -58,6 +73,7 @@ const sections = [
   ["numbers", "Weight & money"],
   ["choices", "Choices"],
   ["display", "Badges & cards"],
+  ["widgets", "Dashboard widgets"],
   ["table", "Data table"],
   ["overlays", "Overlays"],
   ["feedback", "Feedback"],
@@ -94,6 +110,8 @@ const swatches: [string, string][] = [
   ["muted", "--muted"],
   ["subtle", "--subtle"],
   ["primary", "--primary"],
+  ["accent", "--accent"],
+  ["accent-soft", "--accent-soft"],
   ["primary-soft", "--primary-soft"],
   ["success", "--success"],
   ["warning", "--warning"],
@@ -101,16 +119,26 @@ const swatches: [string, string][] = [
   ["info", "--info"],
 ];
 
-const brands = ["steel", "emerald", "maroon", "copper"] as const;
-const brandHex: Record<(typeof brands)[number], string> = { steel: "#1f4f8a", emerald: "#0d7062", maroon: "#9b1c3b", copper: "#b4470f" };
+const brands = ["lime", "mint", "sky", "peach", "lilac"] as const;
+const brandHex: Record<(typeof brands)[number], string> = { lime: "#d4f15a", mint: "#8ff0c8", sky: "#a6d8ff", peach: "#ffc59a", lilac: "#d6c6ff" };
 
 export default function UiKitPage() {
   const toast = useToast();
   const [brand, setBrand] = useState<(typeof brands)[number]>(appConfig.brand);
   useEffect(() => {
-    if (brand === "steel") delete document.documentElement.dataset.brand;
+    if (brand === "lime") delete document.documentElement.dataset.brand;
     else document.documentElement.dataset.brand = brand;
   }, [brand]);
+
+  // widgets demo state
+  const [dates, setDates] = useState<DateRange>({ from: "2026-11-04", to: "2026-11-10" });
+  const [period, setPeriod] = useState("24h");
+  const [step, setStep] = useState(1);
+  const [tasks, setTasks] = useState<ChecklistItem[]>([
+    { id: "a", label: "Collect payment — Ahmed Builders", meta: "Due today", aside: <span className="text-sm font-semibold">Rs 145,000</span>, done: false },
+    { id: "b", label: "Receive GI wire delivery", meta: "Punjab Steel", aside: <Delta value="2.5 t" />, done: true },
+    { id: "c", label: "Count binding wire stock", meta: "Weekly", done: false },
+  ]);
 
   // form demo state
   const [name, setName] = useState("");
@@ -160,9 +188,9 @@ export default function UiKitPage() {
     <div className="min-h-dvh bg-bg">
       <header className="sticky top-0 z-20 border-b border-line bg-surface/85 backdrop-blur">
         <div className="mx-auto flex h-14 max-w-6xl items-center gap-3 px-4 sm:px-6">
-          <span className="flex size-8 items-center justify-center rounded-md bg-primary text-xs font-extrabold text-primary-fg">UI</span>
+          <span className="flex size-8 items-center justify-center rounded-full bg-accent text-xs font-extrabold text-accent-fg">UI</span>
           <p className="font-extrabold text-fg">Inventory UI Kit</p>
-          <Badge size="sm" className="hidden sm:inline-flex">v1.0</Badge>
+          <Badge size="sm" tone="accent" className="hidden sm:inline-flex">v2 · Lime</Badge>
           <div className="ml-auto flex items-center gap-2">
             <SegmentedControl
               size="sm"
@@ -173,7 +201,7 @@ export default function UiKitPage() {
                 value: b,
                 label: (
                   <span className="flex items-center gap-1.5 capitalize">
-                    <span className="size-2.5 rounded-full" style={{ background: brandHex[b] }} />
+                    <span className="size-3 rounded-full ring-1 ring-black/10" style={{ background: brandHex[b] }} />
                     <span className="hidden sm:inline">{b}</span>
                   </span>
                 ),
@@ -222,14 +250,15 @@ export default function UiKitPage() {
               </div>
             </Demo>
             <div className="grid gap-6 md:grid-cols-2">
-              <Demo title="Type — Manrope (UI) & IBM Plex Mono (figures)">
+              <Demo title="Type — Hanken Grotesk, tabular figures">
                 <div className="flex flex-col gap-2">
-                  <p className="text-2xl font-extrabold tracking-tight">Page title 24</p>
+                  <p className="text-[40px] leading-none font-medium tracking-[-0.03em]">Dashboard</p>
+                  <p className="-mt-1 text-2xl tracking-[-0.02em] text-subtle">Stock & sales</p>
                   <p className="text-lg font-bold">Dialog title 18</p>
                   <p className="text-[15px] font-bold">Card title 15</p>
                   <p className="text-sm">Body text 14 — readable for long lists.</p>
                   <p className="text-xs text-muted">Hint / caption 12</p>
-                  <p className="font-mono text-2xl font-semibold tabular-nums">Rs 1,245,800</p>
+                  <p className="text-[52px] leading-none tracking-[-0.05em] tabular-nums">97.5<span className="text-2xl tracking-normal">%</span></p>
                   <p className="font-mono text-sm tabular-nums text-muted">612.50 kg × Rs 470 = Rs 287,875</p>
                 </div>
               </Demo>
@@ -450,10 +479,10 @@ export default function UiKitPage() {
               <StockBadge qty={0} reorderLevel={50} />
             </Demo>
             <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-              <StatCard label="Today's sales" value={formatMoney(186450)} icon="receipt" change={{ value: "12%", direction: "up" }} hint="vs yesterday" />
-              <StatCard label="Cash in hand" value={formatMoney(74200)} icon="wallet" tone="success" />
-              <StatCard label="Receivable" value={formatMoney(395900)} icon="users" tone="warning" change={{ value: "3.1%", direction: "up", good: false }} />
-              <StatCard label="Wire sold" value="2,418 kg" icon="scale" tone="info" hint="this week" />
+              <StatCard label="Today's sales" value="1.86" unit="L" icon="receipt" change={{ value: "12%", direction: "up" }} hint="Rs 186,450 · vs yesterday" />
+              <StatCard variant="accent" label="Items in stock" value="87.5" unit="%" hint="±2.1% from last week" />
+              <StatCard variant="info" label="Cash in hand · 12:02" value="74.2" unit="K" hint="+Rs 18,900 since opening" />
+              <StatCard variant="ink" label="Receivable" value="3.96" unit="L" change={{ value: "3.1%", direction: "up", good: false }} hint="12 customers" />
             </div>
             <Card className="max-w-md">
               <CardHeader
@@ -476,6 +505,75 @@ export default function UiKitPage() {
                 <Button size="sm" leftIcon="wallet">Receive payment</Button>
               </CardFooter>
             </Card>
+          </Section>
+
+          {/* ------------------------------------------------ */}
+          <Section id="widgets" title="Dashboard widgets" description="The pieces of the overview screen: rounded bar and dot charts, pills for filters, change chips, checklists and call-out cards.">
+            <Demo title="Top bar pieces" className="flex flex-wrap items-center gap-3 bg-surface-2!">
+              <WorkspacePill name="Khalid Wire Store" subtitle="Inventory & accounts" short="KWS" />
+              <IconButton icon="barcode" label="Scan" variant="outline" />
+              <IconButton icon="refresh" label="Sync" variant="outline" />
+              <DateChip label="Tue, 10 Nov" count={5} />
+              <IconButton icon="menu" label="Menu" variant="primary" />
+            </Demo>
+            <Demo title="Filters & actions" className="flex flex-wrap items-center gap-3 bg-surface-2!">
+              <DateRangePicker value={dates} onChange={setDates} align="start" />
+              <PillSelect icon="clock" aria-label="Period" value={period} onChange={(e) => setPeriod(e.target.value)} options={[{ value: "24h", label: "24h" }, { value: "7d", label: "7 days" }]} />
+              <Button size="lg" arrow>Weekly</Button>
+              <Button size="lg" variant="accent" arrow>New sale</Button>
+              <Delta value="30min" />
+              <Delta value="0.7%" direction="down" />
+              <LegendDot label="Cash" />
+              <LegendDot label="Credit" dotClassName="bg-primary" />
+            </Demo>
+            <div className="grid gap-4 lg:grid-cols-[2fr_1fr]">
+              <Card className="p-5">
+                <SectionLabel>Bar chart</SectionLabel>
+                <BarChart
+                  className="mt-10"
+                  label="Monthly sales"
+                  data={["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov"].map((m, i) => ({ label: m, value: [8.2, 9.1, 13.4, 11.8, 9.9, 8.6, 7.8, 8.4, 9.3, 10.1, 12.5][i]! }))}
+                  accent={[10]}
+                  format={(v) => v.toFixed(1) + "L"}
+                  height={170}
+                />
+                <BarChart
+                  className="mt-10"
+                  variant="ink"
+                  hideAxis
+                  label="Daily bills"
+                  data={Array.from({ length: 14 }, (_, i) => ({ label: String(i + 1), value: [4, 5, 6, 8, 12, 14, 9, 7, 6, 5, 5, 6, 7, 11][i]! }))}
+                  accent={[13]}
+                  xLabelEvery={3}
+                  height={110}
+                />
+              </Card>
+              <Card className="p-5">
+                <SectionLabel>Dot chart</SectionLabel>
+                <DotChart label="Bills per day" peakChip="18%" data={[{ label: "M", value: 31 }, { label: "T", value: 38 }, { label: "W", value: 46 }, { label: "T", value: 41 }, { label: "F", value: 22 }, { label: "S", value: 52 }, { label: "S", value: 35 }]} />
+                <SectionLabel className="mt-6">Meter & steps</SectionLabel>
+                <Meter className="mt-3" value={42.75} max={100} tone="warning" label="Stock level" />
+                <Meter className="mt-2" value={80} label="Monthly target" />
+                <StepDots count={4} active={step} onChange={setStep} className="mt-4" />
+              </Card>
+            </div>
+            <div className="grid gap-4 lg:grid-cols-2">
+              <Card className="p-5">
+                <SectionLabel>Checklist</SectionLabel>
+                <Checklist
+                  className="mt-2"
+                  items={tasks}
+                  onToggle={(id, done) => setTasks((l) => l.map((t) => (t.id === id ? { ...t, done } : t)))}
+                />
+              </Card>
+              <ReminderCard
+                title={<>Restock<br />before Friday</>}
+                note={<><b>4 items</b> are at or below their re-order level.</>}
+                chip="GI Wire No. 12"
+                status="42.75 kg left · re-order at 50 kg"
+                action={{ icon: "cart", label: "Create purchase order", onClick: () => toast({ title: "Purchase order drafted" }) }}
+              />
+            </div>
           </Section>
 
           {/* ------------------------------------------------ */}

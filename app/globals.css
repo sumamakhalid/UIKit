@@ -1,152 +1,143 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------
-   Inventory UI Kit — design tokens
-   Every component reads these variables, so re-branding a client is
-   a matter of changing values here (or adding a [data-brand] preset).
+   Inventory UI Kit — design tokens  ("Lime" look)
+   Soft grey canvas, white rounded cards, ink-black actions and one
+   bright accent for whatever is active or worth noticing.
+   Every component reads these variables, so re-branding a client is a
+   matter of changing values here (or picking a [data-brand] preset).
    ------------------------------------------------------------------ */
 
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 :root {
   /* Surfaces */
-  --bg: #f4f5f7;
-  --surface: #ffffff;
-  --surface-2: #eff1f4;
-  --line: #e3e6eb;
-  --line-strong: #858e9d; /* control borders: ≥3:1 on surface */
+  --bg: #efefec;            /* canvas behind cards */
+  --surface: #ffffff;       /* cards, inputs, dialogs */
+  --surface-2: #f4f4f1;     /* inner panels, hover, inactive pills */
+  --line: #e6e6e2;          /* hairlines */
+  --line-strong: #8a8a84;   /* control borders: ≥3:1 on surface & bg */
 
   /* Text */
-  --fg: #141820;
-  --muted: #586172;
-  --subtle: #646d7e;
+  --fg: #111111;
+  --muted: #5c5c57;
+  --subtle: #6a6a64;
 
-  /* Brand (default preset: "steel") */
-  --primary: #1f4f8a;
-  --primary-hover: #173f70;
+  /* Ink — primary actions (black pills) */
+  --primary: #111111;
+  --primary-hover: #2b2b2b;
   --primary-fg: #ffffff;
-  --primary-soft: #e7eef8;
-  --ring: rgb(31 79 138 / 0.28);
+  --primary-soft: #ececea;
+
+  /* Accent — the lime: active nav, selected chips, highlights. Always dark text on it. */
+  --accent: #d4f15a;
+  --accent-hover: #c8e74a;
+  --accent-fg: #111111;
+  --accent-soft: #f0f9d2;
+
+  --ring: rgb(160 200 30 / 0.45);
 
   /* Status */
-  --success: #157a3c;
-  --success-soft: #e6f5ec;
-  --warning: #a8590a;
-  --warning-soft: #fdf2e0;
-  --danger: #be2530;
+  --success: #2e6f10;
+  --success-soft: #e8f6d6;
+  --warning: #8f5200;
+  --warning-soft: #fdf0d5;
+  --danger: #c02626;
   --danger-fg: #ffffff;
-  --danger-soft: #fdebec;
-  --danger-ring: rgb(190 37 48 / 0.25);
-  --info: #0b7285;
-  --info-soft: #e2f3f6;
+  --danger-soft: #fde7e7;
+  --danger-ring: rgb(192 38 38 / 0.25);
+  --info: #0b5aa0;
+  --info-soft: #dcebfa;
 
   /* Shape & depth */
-  --radius: 8px;
-  --shadow-sm: 0 1px 2px rgb(16 24 40 / 0.06);
-  --shadow-md: 0 4px 12px -2px rgb(16 24 40 / 0.1), 0 2px 4px -2px rgb(16 24 40 / 0.06);
-  --shadow-lg: 0 20px 40px -12px rgb(16 24 40 / 0.25);
-  --overlay: rgb(10 14 20 / 0.45);
+  --radius: 14px;
+  --shadow-sm: 0 1px 2px rgb(17 17 17 / 0.04);
+  --shadow-md: 0 8px 24px -8px rgb(17 17 17 / 0.12);
+  --shadow-lg: 0 24px 48px -16px rgb(17 17 17 / 0.22);
+  --overlay: rgb(17 17 17 / 0.35);
 
   color-scheme: light;
 }
 
-/* Dark theme: explicit, or following the OS when no choice was made */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0d1015;
-    --surface: #151a21;
-    --surface-2: #1c222b;
-    --line: #262d38;
-    --line-strong: #647083;
-    --fg: #e7eaef;
-    --muted: #a2aab8;
-    --subtle: #8790a0;
-    --primary: #6ea2e8;
-    --primary-hover: #8ab5ef;
-    --primary-fg: #0a1322;
-    --primary-soft: #18283e;
-    --ring: rgb(110 162 232 / 0.35);
-    --success: #4fd17f;
-    --success-soft: #11261a;
-    --warning: #f0b24a;
-    --warning-soft: #2b2112;
-    --danger: #f27a82;
+    --bg: #0b0b0b;
+    --surface: #161616;
+    --surface-2: #1f1f1f;
+    --line: #2a2a2a;
+    --line-strong: #6a6a64;
+    --fg: #f1f1ee;
+    --muted: #a9a9a3;
+    --subtle: #8e8e88;
+    --primary: #f1f1ee;
+    --primary-hover: #ffffff;
+    --primary-fg: #111111;
+    --primary-soft: #262626;
+    --accent-soft: #283012;
+    --ring: rgb(212 241 90 / 0.4);
+    --success: #a8dc6a;
+    --success-soft: #1d2b10;
+    --warning: #f2b54c;
+    --warning-soft: #2c2210;
+    --danger: #f4858a;
     --danger-fg: #1d0a0c;
-    --danger-soft: #2e1518;
-    --danger-ring: rgb(242 122 130 / 0.3);
-    --info: #52c5db;
-    --info-soft: #0f262b;
-    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
-    --shadow-md: 0 6px 16px -4px rgb(0 0 0 / 0.55);
-    --shadow-lg: 0 24px 48px -12px rgb(0 0 0 / 0.7);
+    --danger-soft: #2f1517;
+    --danger-ring: rgb(244 133 138 / 0.3);
+    --info: #8cc2f2;
+    --info-soft: #14263a;
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.5);
+    --shadow-md: 0 8px 24px -8px rgb(0 0 0 / 0.6);
+    --shadow-lg: 0 24px 48px -16px rgb(0 0 0 / 0.8);
     --overlay: rgb(0 0 0 / 0.6);
     color-scheme: dark;
   }
 }
 
 :root[data-theme="dark"] {
-  --bg: #0d1015;
-  --surface: #151a21;
-  --surface-2: #1c222b;
-  --line: #262d38;
-  --line-strong: #647083;
-  --fg: #e7eaef;
-  --muted: #a2aab8;
-  --subtle: #8790a0;
-  --primary: #6ea2e8;
-  --primary-hover: #8ab5ef;
-  --primary-fg: #0a1322;
-  --primary-soft: #18283e;
-  --ring: rgb(110 162 232 / 0.35);
-  --success: #4fd17f;
-  --success-soft: #11261a;
-  --warning: #f0b24a;
-  --warning-soft: #2b2112;
-  --danger: #f27a82;
+  --bg: #0b0b0b;
+  --surface: #161616;
+  --surface-2: #1f1f1f;
+  --line: #2a2a2a;
+  --line-strong: #6a6a64;
+  --fg: #f1f1ee;
+  --muted: #a9a9a3;
+  --subtle: #8e8e88;
+  --primary: #f1f1ee;
+  --primary-hover: #ffffff;
+  --primary-fg: #111111;
+  --primary-soft: #262626;
+  --accent-soft: #283012;
+  --ring: rgb(212 241 90 / 0.4);
+  --success: #a8dc6a;
+  --success-soft: #1d2b10;
+  --warning: #f2b54c;
+  --warning-soft: #2c2210;
+  --danger: #f4858a;
   --danger-fg: #1d0a0c;
-  --danger-soft: #2e1518;
-  --danger-ring: rgb(242 122 130 / 0.3);
-  --info: #52c5db;
-  --info-soft: #0f262b;
-  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
-  --shadow-md: 0 6px 16px -4px rgb(0 0 0 / 0.55);
-  --shadow-lg: 0 24px 48px -12px rgb(0 0 0 / 0.7);
+  --danger-soft: #2f1517;
+  --danger-ring: rgb(244 133 138 / 0.3);
+  --info: #8cc2f2;
+  --info-soft: #14263a;
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.5);
+  --shadow-md: 0 8px 24px -8px rgb(0 0 0 / 0.6);
+  --shadow-lg: 0 24px 48px -16px rgb(0 0 0 / 0.8);
   --overlay: rgb(0 0 0 / 0.6);
   color-scheme: dark;
 }
 
 /* ---------------- Brand presets (one per client) ----------------
-   <html data-brand="emerald"> switches the accent without touching
-   any component. Add a new block for each new business.            */
-:root[data-brand="emerald"] {
-  --primary: #0d7062;
-  --primary-hover: #0a5a4f;
-  --primary-soft: #e2f3f0;
-  --ring: rgb(13 112 98 / 0.28);
-}
-:root[data-brand="maroon"] {
-  --primary: #9b1c3b;
-  --primary-hover: #7f1530;
-  --primary-soft: #f8e7ec;
-  --ring: rgb(155 28 59 / 0.26);
-}
-:root[data-brand="copper"] {
-  --primary: #b4470f;
-  --primary-hover: #943a0b;
-  --primary-soft: #fbeee4;
-  --ring: rgb(180 71 15 / 0.28);
-}
-:root[data-theme="dark"][data-brand="emerald"] {
-  --primary: #45cdb8; --primary-hover: #6ad9c8; --primary-fg: #04201b; --primary-soft: #0f2a26; --ring: rgb(69 205 184 / 0.35);
-}
-:root[data-theme="dark"][data-brand="maroon"] {
-  --primary: #f07b98; --primary-hover: #f499ae; --primary-fg: #2a0611; --primary-soft: #301821; --ring: rgb(240 123 152 / 0.35);
-}
-:root[data-theme="dark"][data-brand="copper"] {
-  --primary: #f39a5c; --primary-hover: #f6b07f; --primary-fg: #2a1204; --primary-soft: #2e1d12; --ring: rgb(243 154 92 / 0.35);
-}
+   <html data-brand="mint"> swaps the accent; everything else stays.
+   Accents are always light colours with dark text on top.          */
+:root[data-brand="mint"]  { --accent: #8ff0c8; --accent-hover: #74e6b8; --accent-soft: #e2fbf1; --ring: rgb(60 200 150 / 0.4); }
+:root[data-brand="sky"]   { --accent: #a6d8ff; --accent-hover: #8ccbfb; --accent-soft: #e6f3ff; --ring: rgb(70 160 230 / 0.4); }
+:root[data-brand="peach"] { --accent: #ffc59a; --accent-hover: #ffb57f; --accent-soft: #fff0e4; --ring: rgb(240 140 70 / 0.4); }
+:root[data-brand="lilac"] { --accent: #d6c6ff; --accent-hover: #c7b2ff; --accent-soft: #f3eeff; --ring: rgb(140 110 230 / 0.4); }
+:root[data-theme="dark"][data-brand="mint"]  { --accent-soft: #10291f; }
+:root[data-theme="dark"][data-brand="sky"]   { --accent-soft: #11243a; }
+:root[data-theme="dark"][data-brand="peach"] { --accent-soft: #2e1e12; }
+:root[data-theme="dark"][data-brand="lilac"] { --accent-soft: #221a38; }
 
-/* Map tokens to Tailwind utilities: bg-surface, text-muted, border-line … */
+/* Map tokens to Tailwind utilities: bg-surface, text-muted, bg-accent … */
 @theme inline {
   --color-bg: var(--bg);
   --color-surface: var(--surface);
@@ -160,6 +151,10 @@
   --color-primary-hover: var(--primary-hover);
   --color-primary-fg: var(--primary-fg);
   --color-primary-soft: var(--primary-soft);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-fg: var(--accent-fg);
+  --color-accent-soft: var(--accent-soft);
   --color-ring: var(--ring);
   --color-success: var(--success);
   --color-success-soft: var(--success-soft);
@@ -173,17 +168,18 @@
   --color-info-soft: var(--info-soft);
   --color-overlay: var(--overlay);
 
-  --radius-sm: calc(var(--radius) - 3px);
+  --radius-sm: calc(var(--radius) - 4px);
   --radius-md: var(--radius);
-  --radius-lg: calc(var(--radius) + 4px);
-  --radius-xl: calc(var(--radius) + 8px);
+  --radius-lg: calc(var(--radius) + 8px);
+  --radius-xl: calc(var(--radius) + 14px);
 
   --shadow-sm: var(--shadow-sm);
   --shadow-md: var(--shadow-md);
   --shadow-lg: var(--shadow-lg);
 
-  --font-sans: var(--font-manrope), "Manrope", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-plex-mono), "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+  /* One grotesk for words and figures; numbers use tabular digits. */
+  --font-sans: var(--font-hanken), "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-hanken), "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
 }
 
 @layer base {
@@ -197,7 +193,8 @@
     -webkit-font-smoothing: antialiased;
   }
   ::selection {
-    background: var(--primary-soft);
+    background: var(--accent);
+    color: var(--accent-fg);
   }
 }
 
@@ -226,11 +223,16 @@
   from { transform: translateX(-100%); }
   to { transform: none; }
 }
+@keyframes kit-grow {
+  from { transform: scaleY(0); }
+  to { transform: none; }
+}
 
 @utility animate-fade-in { animation: kit-fade-in 150ms ease-out; }
 @utility animate-pop-in { animation: kit-pop-in 180ms cubic-bezier(0.2, 0.8, 0.2, 1); }
 @utility animate-slide-in { animation: kit-slide-in 220ms cubic-bezier(0.2, 0.8, 0.2, 1); }
 @utility animate-slide-in-left { animation: kit-slide-in-left 220ms cubic-bezier(0.2, 0.8, 0.2, 1); }
+@utility animate-grow { animation: kit-grow 500ms cubic-bezier(0.2, 0.8, 0.2, 1) both; transform-origin: bottom; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; }

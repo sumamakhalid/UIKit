@@ -117,13 +117,13 @@ export function Modal({ open, onClose, title, description, children, footer, siz
           aria-describedby={description ? descId : undefined}
           tabIndex={-1}
           className={cn(
-            "relative flex max-h-[92vh] w-full animate-pop-in flex-col rounded-t-xl border border-line bg-surface shadow-lg outline-none sm:rounded-xl",
+            "relative flex max-h-[92vh] w-full animate-pop-in flex-col rounded-t-xl bg-surface shadow-lg outline-none sm:rounded-xl",
             modalSizes[size],
           )}
         >
-          <div className="flex items-start justify-between gap-4 px-5 pt-5 pb-3">
+          <div className="flex items-start justify-between gap-4 px-6 pt-6 pb-4">
             <div>
-              <h2 id={titleId} className="text-lg font-bold text-fg">
+              <h2 id={titleId} className="text-xl font-semibold tracking-tight text-fg">
                 {title}
               </h2>
               {description && (
@@ -137,14 +137,14 @@ export function Modal({ open, onClose, title, description, children, footer, siz
               onClick={onClose}
               aria-label="Close"
               data-dialog-close
-              className="-mt-1 -mr-1 rounded-md p-1.5 text-subtle hover:bg-surface-2 hover:text-fg focus-visible:ring-3 focus-visible:ring-ring focus-visible:outline-none"
+              className="-mt-1 -mr-1 rounded-full bg-surface-2 p-2 text-fg hover:bg-primary-soft focus-visible:ring-4 focus-visible:ring-ring focus-visible:outline-none"
             >
               <Icon name="x" size={18} />
             </button>
           </div>
-          {children && <div className="overflow-y-auto px-5 pb-5">{children}</div>}
+          {children && <div className="overflow-y-auto px-6 pb-6">{children}</div>}
           {footer && (
-            <div className="flex flex-wrap items-center justify-end gap-2 rounded-b-xl border-t border-line bg-surface-2/50 px-5 py-3.5">
+            <div className="flex flex-wrap items-center justify-end gap-2 rounded-b-xl border-t border-line px-6 py-4">
               {footer}
             </div>
           )}
@@ -238,7 +238,7 @@ export function Drawer({ open, onClose, title, description, children, footer, wi
 
   return (
     <Portal>
-      <div className="fixed inset-0 z-50 flex justify-end">
+      <div className="fixed inset-0 z-50 flex justify-end p-0 sm:p-3">
         <div className="absolute inset-0 animate-fade-in bg-overlay" onClick={onClose} />
         <div
           ref={panelRef}
@@ -247,13 +247,13 @@ export function Drawer({ open, onClose, title, description, children, footer, wi
           aria-labelledby={titleId}
           tabIndex={-1}
           className={cn(
-            "relative flex h-full w-full animate-slide-in flex-col border-l border-line bg-surface shadow-lg outline-none",
+            "relative flex h-full w-full animate-slide-in flex-col bg-surface shadow-lg outline-none sm:rounded-xl",
             drawerWidths[width],
           )}
         >
-          <div className="flex items-start justify-between gap-4 border-b border-line px-5 py-4">
+          <div className="flex items-start justify-between gap-4 px-6 pt-6 pb-4">
             <div>
-              <h2 id={titleId} className="text-lg font-bold text-fg">
+              <h2 id={titleId} className="text-xl font-semibold tracking-tight text-fg">
                 {title}
               </h2>
               {description && <p className="mt-0.5 text-sm text-muted">{description}</p>}
@@ -263,13 +263,13 @@ export function Drawer({ open, onClose, title, description, children, footer, wi
               onClick={onClose}
               aria-label="Close"
               data-dialog-close
-              className="-mr-1 rounded-md p-1.5 text-subtle hover:bg-surface-2 hover:text-fg focus-visible:ring-3 focus-visible:ring-ring focus-visible:outline-none"
+              className="-mr-1 rounded-full bg-surface-2 p-2 text-fg hover:bg-primary-soft focus-visible:ring-4 focus-visible:ring-ring focus-visible:outline-none"
             >
               <Icon name="x" size={18} />
             </button>
           </div>
-          <div className="flex-1 overflow-y-auto px-5 py-5">{children}</div>
-          {footer && <div className="flex items-center justify-end gap-2 border-t border-line bg-surface-2/50 px-5 py-3.5">{footer}</div>}
+          <div className="flex-1 overflow-y-auto px-6 pb-6">{children}</div>
+          {footer && <div className="flex items-center justify-end gap-2 border-t border-line px-6 py-4">{footer}</div>}
         </div>
       </div>
     </Portal>
@@ -330,7 +330,7 @@ export function DropdownMenu({ trigger, items, align = "end", className }: Dropd
           ref={menuRef}
           role="menu"
           className={cn(
-            "absolute top-full z-40 mt-1.5 min-w-[200px] animate-pop-in rounded-lg border border-line bg-surface p-1 shadow-lg",
+            "absolute top-full z-40 mt-2 min-w-[210px] animate-pop-in rounded-lg border border-line bg-surface p-1.5 shadow-lg",
             align === "end" ? "right-0" : "left-0",
           )}
         >
@@ -393,10 +393,10 @@ const toastIcon: Record<ToastItem["tone"], IconName> = {
   info: "info",
 };
 const toastColor: Record<ToastItem["tone"], string> = {
-  success: "text-success",
-  danger: "text-danger",
-  warning: "text-warning",
-  info: "text-info",
+  success: "bg-accent text-accent-fg",
+  danger: "bg-danger text-danger-fg",
+  warning: "bg-warning-soft text-warning",
+  info: "bg-info-soft text-info",
 };
 
 export function ToastProvider({ children }: { children: ReactNode }) {
@@ -426,12 +426,12 @@ export function ToastProvider({ children }: { children: ReactNode }) {
             <div
               key={t.id}
               role="status"
-              className="pointer-events-auto flex w-full max-w-sm animate-pop-in items-start gap-3 rounded-lg border border-line bg-surface p-3.5 shadow-lg"
+              className="pointer-events-auto flex w-full max-w-sm animate-pop-in items-start gap-3 rounded-lg bg-primary p-4 text-primary-fg shadow-lg"
             >
-              <Icon name={toastIcon[t.tone]} size={19} className={cn("mt-px shrink-0", toastColor[t.tone])} />
+              <span className={cn("flex size-8 shrink-0 items-center justify-center rounded-full", toastColor[t.tone])}><Icon name={toastIcon[t.tone]} size={16} /></span>
               <div className="min-w-0 flex-1">
-                <p className="text-sm font-bold text-fg">{t.title}</p>
-                {t.description && <p className="mt-0.5 text-[13px] text-muted">{t.description}</p>}
+                <p className="text-sm font-semibold">{t.title}</p>
+                {t.description && <p className="mt-0.5 text-[13px] opacity-75">{t.description}</p>}
                 {t.action && (
                   <button
                     type="button"
@@ -439,7 +439,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                       t.action!.onClick();
                       dismiss(t.id);
                     }}
-                    className="mt-1.5 text-[13px] font-bold text-primary hover:underline"
+                    className="mt-2 inline-flex h-7 items-center rounded-full bg-accent px-3 text-xs font-bold text-accent-fg"
                   >
                     {t.action.label}
                   </button>
@@ -449,7 +449,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                 type="button"
                 onClick={() => dismiss(t.id)}
                 aria-label="Dismiss"
-                className="-m-1 rounded p-1 text-subtle hover:text-fg"
+                className="-m-1 rounded-full p-1 opacity-70 hover:opacity-100"
               >
                 <Icon name="x" size={15} />
               </button>

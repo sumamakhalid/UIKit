@@ -33,7 +33,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Che
           className={cn(
             "relative flex size-[18px] items-center justify-center rounded-[5px] border border-line-strong bg-surface text-primary-fg shadow-sm transition-colors",
             "peer-checked:border-primary peer-checked:bg-primary peer-indeterminate:border-primary peer-indeterminate:bg-primary",
-            "peer-focus-visible:ring-3 peer-focus-visible:ring-ring",
+            "peer-focus-visible:ring-4 peer-focus-visible:ring-ring",
             "[&>svg]:opacity-0 peer-checked:[&>svg.check]:opacity-100 peer-indeterminate:[&>svg.dash]:opacity-100 peer-indeterminate:[&>svg.check]:opacity-0!",
           )}
         >
@@ -77,7 +77,7 @@ export function Switch({ checked, onCheckedChange, label, description, disabled,
         onClick={() => onCheckedChange(!checked)}
         className={cn(
           "relative mt-px inline-flex h-[22px] w-[38px] shrink-0 items-center rounded-full transition-colors",
-          "focus-visible:ring-3 focus-visible:ring-ring focus-visible:outline-none",
+          "focus-visible:ring-4 focus-visible:ring-ring focus-visible:outline-none",
           checked ? "bg-primary" : "bg-line-strong",
         )}
       >
@@ -132,8 +132,8 @@ export function RadioGroup<V extends string>({ name, value, onChange, options, v
               o.disabled ? "cursor-not-allowed opacity-60" : "cursor-pointer",
               variant === "card" &&
                 cn(
-                  "rounded-lg border p-3 transition-colors",
-                  checked ? "border-primary bg-primary-soft" : "border-line-strong bg-surface hover:bg-surface-2",
+                  "rounded-lg border p-3.5 transition-colors",
+                  checked ? "border-fg bg-accent-soft" : "border-line bg-surface hover:bg-surface-2",
                 ),
             )}
           >
@@ -150,7 +150,7 @@ export function RadioGroup<V extends string>({ name, value, onChange, options, v
               aria-hidden="true"
               className={cn(
                 "mt-px flex size-[18px] shrink-0 items-center justify-center rounded-full border bg-surface shadow-sm transition-colors",
-                "peer-focus-visible:ring-3 peer-focus-visible:ring-ring",
+                "peer-focus-visible:ring-4 peer-focus-visible:ring-ring",
                 checked ? "border-primary" : "border-line-strong",
               )}
             >
@@ -193,7 +193,7 @@ export function SegmentedControl<V extends string>({
   return (
     <div
       role="radiogroup"
-      className={cn("inline-flex rounded-md border border-line bg-surface-2 p-0.5", fullWidth && "flex w-full", className)}
+      className={cn("inline-flex rounded-full bg-surface-2 p-1", fullWidth && "flex w-full", className)}
       {...aria}
     >
       {options.map((o) => {
@@ -206,10 +206,10 @@ export function SegmentedControl<V extends string>({
             aria-checked={active}
             onClick={() => onChange(o.value)}
             className={cn(
-              "inline-flex flex-1 items-center justify-center gap-1.5 rounded-[calc(var(--radius)-2px)] font-semibold whitespace-nowrap transition-colors",
-              "focus-visible:ring-3 focus-visible:ring-ring focus-visible:outline-none",
-              size === "sm" ? "h-7 px-2.5 text-xs" : "h-[34px] px-3.5 text-[13px]",
-              active ? "bg-surface text-fg shadow-sm" : "text-muted hover:text-fg",
+              "inline-flex flex-1 items-center justify-center gap-1.5 rounded-full font-semibold whitespace-nowrap transition-colors",
+              "focus-visible:ring-4 focus-visible:ring-ring focus-visible:outline-none",
+              size === "sm" ? "h-7 px-3 text-xs" : "h-9 px-4 text-[13px]",
+              active ? "bg-primary text-primary-fg" : "text-muted hover:text-fg",
             )}
           >
             {o.label}

@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from "react";
 import {
-  AppShell,
   Badge,
   Button,
   ConfirmDialog,
@@ -26,9 +25,9 @@ import {
   type Column,
 } from "@/components/ui";
 import { appConfig } from "@/lib/config";
-import { nav } from "@/lib/nav";
+import { AppFrame } from "@/components/app/app-frame";
 import { products as seed, categories, type Product, type SellBy } from "@/lib/sample-data";
-import { formatMoney, formatNumber, formatQty, round } from "@/lib/utils";
+import { formatCompact, formatMoney, formatNumber, formatQty, round } from "@/lib/utils";
 
 
 type Tab = "all" | "low" | "out";
@@ -209,43 +208,35 @@ export default function InventoryPage() {
   const inTotal = (inQty ?? 0) * (inCost ?? 0);
 
   return (
-    <AppShell
-      brand={{ name: appConfig.businessName, short: appConfig.shortName, subtitle: "Inventory & accounts" }}
-      nav={nav}
-      activeHref="/inventory"
-      user={{ name: "Sumama Khalid", role: "Owner" }}
-      topbar={
-        <Input icon="search" size="sm" placeholder="Search items, customers, bills…" wrapperClassName="max-w-sm" aria-label="Global search" />
-      }
-    >
+    <AppFrame active="/inventory">
       <PageHeader
         title="Inventory"
-        description="Every item you buy and sell, with live stock levels."
-        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Inventory" }]}
+        subtitle="Every item, live stock"
         actions={
           <>
-            <Button variant="outline" leftIcon="download">
+            <Button variant="outline" size="lg" leftIcon="download">
               Export
             </Button>
-            <Button leftIcon="plus" onClick={openNew}>
+            <Button size="lg" arrow onClick={openNew}>
               Add item
             </Button>
           </>
         }
       />
 
-      <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
+      <div className="mt-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
         <StatCard label="Total items" value={formatNumber(items.length)} icon="box" hint={`${categories.length} categories`} />
         <StatCard
           label="Stock value (cost)"
-          value={formatMoney(stockValue)}
+          value={formatCompact(stockValue)}
+          unit={appConfig.currency}
+          variant="accent"
           icon="wallet"
-          tone="success"
           change={{ value: "4.2%", direction: "up" }}
           hint="vs last month"
         />
-        <StatCard label="Low stock" value={low.length} icon="alert" tone="warning" hint="at or below re-order level" />
-        <StatCard label="Out of stock" value={out.length} icon="x-circle" tone="danger" hint="needs purchase" />
+        <StatCard label="Low stock" value={low.length} icon="alert" variant="info" hint="at or below re-order level" />
+        <StatCard label="Out of stock" value={out.length} icon="x-circle" variant="ink" hint="needs purchase" />
       </div>
 
       <div className="mt-6">
@@ -481,6 +472,6 @@ export default function InventoryPage() {
           toast({ title: `${ids.size} item${ids.size > 1 ? "s" : ""} deleted`, tone: "danger" });
         }}
       />
-    </AppShell>
+    </AppFrame>
   );
 }

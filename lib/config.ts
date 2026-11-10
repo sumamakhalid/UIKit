@@ -5,7 +5,8 @@
 export const appConfig = {
   businessName: "Khalid Wire Store",
   shortName: "KWS",
-  brand: "steel" as "steel" | "emerald" | "maroon" | "copper",
+  /** Accent preset from globals.css: lime (default), mint, sky, peach, lilac */
+  brand: "lime" as "lime" | "mint" | "sky" | "peach" | "lilac",
   locale: "en-PK",
   currency: "Rs",
   /** Unit used for items sold by weight */

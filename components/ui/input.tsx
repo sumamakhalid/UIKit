@@ -76,11 +76,11 @@ export function Field({ label, hint, error, required, labelAside, className, chi
 
 export const controlFrame =
   "flex w-full items-center rounded-md border bg-surface text-sm text-fg shadow-sm transition-[border-color,box-shadow] " +
-  "border-line-strong hover:border-subtle " +
-  "focus-within:border-primary focus-within:ring-3 focus-within:ring-ring kit-control";
+  "border-line-strong hover:border-fg " +
+  "focus-within:border-fg focus-within:ring-4 focus-within:ring-ring kit-control";
 
 export const invalidFrame =
-  "border-danger! hover:border-danger focus-within:ring-danger-ring!";
+  "border-danger! hover:border-danger focus-within:ring-danger-ring! focus-within:border-danger!";
 
 export const controlSizes = { sm: "h-8 text-[13px]", md: "h-10", lg: "h-12 text-[15px]" } as const;
 

@@ -53,6 +53,19 @@ const paths = {
   inbox: "M3 13h5l2 3h4l2-3h5M5 5h14l2 8v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-6l2-8Z",
   "arrow-in": "M12 3v12M7 10l5 5 5-5M4 21h16",
   "arrow-out": "M12 15V3M7 8l5-5 5 5M4 21h16",
+  "arrow-right": "M5 12h14M13 6l6 6-6 6",
+  "arrow-up-right": "M7 17 17 7M8 7h9v9",
+  "arrow-down-right": "M7 7l10 10M17 8v9H8",
+  "arrow-down-left": "M17 7 7 17M16 17H7V8",
+  asterisk: "M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9",
+  refresh: "M20 11a8 8 0 0 0-14.8-4M4 4v4h4M4 13a8 8 0 0 0 14.8 4M20 20v-4h-4",
+  sparkles: "M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3ZM19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8L19 15Z",
+  heart: "M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z",
+  expand: "M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5",
+  barcode: "M4 5v14M7 5v14M11 5v14M14 5v14M17 5v14M20 5v14",
+  clock: "M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18ZM12 7v5l3 2",
+  hourglass: "M6 3h12M6 21h12M7 3c0 5 10 5 10 9s-10 4-10 9M17 3c0 5-10 5-10 9s10 4 10 9",
+  star: "m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9L12 3Z",
 } as const;
 
 export type IconName = keyof typeof paths;

@@ -166,9 +166,9 @@ export function SearchSelect({
         className={cn(
           controlFrame,
           controlSizes[size],
-          "justify-between gap-2 px-3 text-left focus-visible:border-primary focus-visible:ring-3 focus-visible:ring-ring focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-60",
+          "justify-between gap-2 px-3 text-left focus-visible:border-fg focus-visible:ring-4 focus-visible:ring-ring focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-60",
           invalid && invalidFrame,
-          open && "border-primary ring-3 ring-ring",
+          open && "border-fg ring-4 ring-ring",
         )}
         {...aria}
       >
@@ -193,8 +193,8 @@ export function SearchSelect({
       </button>
 
       {open && (
-        <div className="absolute z-40 mt-1.5 w-full min-w-[240px] animate-pop-in overflow-hidden rounded-lg border border-line bg-surface shadow-lg">
-          <div className="flex items-center gap-2 border-b border-line px-3">
+        <div className="absolute z-40 mt-2 w-full min-w-[240px] animate-pop-in overflow-hidden rounded-lg border border-line bg-surface p-1 shadow-lg">
+          <div className="flex items-center gap-2 rounded-md bg-surface-2 px-3">
             <Icon name="search" size={15} className="text-subtle" />
             <input
               ref={searchRef}
@@ -233,7 +233,7 @@ export function SearchSelect({
                   o.disabled && "cursor-not-allowed opacity-50",
                 )}
               >
-                <span className="flex w-4 shrink-0 justify-center text-primary">
+                <span className="flex w-4 shrink-0 justify-center text-fg">
                   {o.value === value && <Icon name="check" size={15} />}
                 </span>
                 <span className="min-w-0 flex-1">

@@ -10,3 +10,5 @@ export * from "./display";
 export * from "./overlay";
 export * from "./navigation";
 export * from "./data-table";
+export * from "./charts";
+export * from "./widgets";

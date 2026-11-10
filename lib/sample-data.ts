@@ -109,3 +109,25 @@ export const customers: Customer[] = [
   { id: "c4", name: "Bilal Fencing Works", phone: "0333 1122334", balance: 0 },
   { id: "c5", name: "Zahid Construction", phone: "0345 9988776", balance: 212400 },
 ];
+
+/* ---------- Dashboard demo series ---------- */
+
+export const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+/** Monthly totals in rupees (Dec not reached yet). */
+export const monthlySeries: Record<"sales" | "purchases" | "profit" | "receivable", number[]> = {
+  sales: [820000, 910000, 1340000, 1180000, 990000, 860000, 780000, 840000, 930000, 1010000, 1245800, 0],
+  purchases: [700000, 760000, 1120000, 990000, 860000, 720000, 690000, 720000, 810000, 880000, 1030000, 0],
+  profit: [96000, 112000, 171000, 148000, 118000, 101000, 88000, 97000, 109000, 121000, 152000, 0],
+  receivable: [210000, 240000, 310000, 290000, 260000, 330000, 350000, 340000, 365000, 372000, 395900, 0],
+};
+
+export const weeklyBills = [
+  { label: "M", value: 31 },
+  { label: "T", value: 38 },
+  { label: "W", value: 46 },
+  { label: "T", value: 41 },
+  { label: "F", value: 22 },
+  { label: "S", value: 52 },
+  { label: "S", value: 35 },
+];

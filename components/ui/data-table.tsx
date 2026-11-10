@@ -153,9 +153,9 @@ export function DataTable<T>({
         : "text-left";
 
   return (
-    <div className={cn("overflow-hidden rounded-lg border border-line bg-surface shadow-sm", className)}>
+    <div className={cn("overflow-hidden rounded-lg bg-surface shadow-sm", className)}>
       {(searchable || toolbar) && (
-        <div className="flex flex-wrap items-center gap-2 border-b border-line p-3">
+        <div className="flex flex-wrap items-center gap-2 p-4 pb-3">
           {selectable && selected.size > 0 && bulkActions ? (
             <div className="flex w-full flex-wrap items-center gap-2">
               <span className="mr-1 text-sm font-semibold text-fg">{selected.size} selected</span>
@@ -175,7 +175,7 @@ export function DataTable<T>({
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder={searchPlaceholder}
                   aria-label="Search table"
-                  wrapperClassName="w-full sm:max-w-xs"
+                  wrapperClassName="w-full rounded-full! bg-surface-2 border-transparent! sm:max-w-xs"
                 />
               )}
               {toolbar && <div className="flex flex-wrap items-center gap-2 sm:ml-auto">{toolbar}</div>}
@@ -187,7 +187,7 @@ export function DataTable<T>({
       <div className="overflow-x-auto">
         <table className="w-full border-collapse text-sm">
           <thead>
-            <tr className="border-b border-line bg-surface-2/60">
+            <tr className="border-y border-line bg-surface-2/60">
               {selectable && (
                 <th className={cn("w-10", cellPad)}>
                   <Checkbox
@@ -208,7 +208,7 @@ export function DataTable<T>({
                     aria-sort={ariaSort}
                     style={c.width ? { width: c.width } : undefined}
                     className={cn(
-                      "text-xs font-bold tracking-wide whitespace-nowrap text-muted uppercase",
+                      "text-xs font-semibold whitespace-nowrap text-muted",
                       cellPad,
                       alignClass(c),
                       c.hideOnMobile && "hidden md:table-cell",
@@ -219,7 +219,7 @@ export function DataTable<T>({
                         type="button"
                         onClick={() => toggleSort(c.key)}
                         className={cn(
-                          "-mx-1 inline-flex items-center gap-1 rounded px-1 uppercase hover:text-fg",
+                          "-mx-1 inline-flex items-center gap-1 rounded px-1 hover:text-fg",
                           active && "text-fg",
                           alignClass(c) === "text-right" && "flex-row-reverse",
                         )}
@@ -229,7 +229,7 @@ export function DataTable<T>({
                           name={active ? (sort!.dir === "asc" ? "arrow-up" : "arrow-down") : "chevrons-up-down"}
                           size={13}
                           strokeWidth={2.2}
-                          className={active ? "text-primary" : "opacity-50"}
+                          className={active ? "text-fg" : "opacity-50"}
                         />
                       </button>
                     ) : (
@@ -278,7 +278,7 @@ export function DataTable<T>({
                     onClick={onRowClick ? () => onRowClick(row) : undefined}
                     className={cn(
                       "border-b border-line transition-colors last:border-0",
-                      isSel ? "bg-primary-soft/60" : "hover:bg-surface-2/60",
+                      isSel ? "bg-accent-soft" : "hover:bg-surface-2/70",
                       onRowClick && "cursor-pointer",
                     )}
                   >
@@ -314,7 +314,7 @@ export function DataTable<T>({
 
           {hasFooter && !loading && sorted.length > 0 && (
             <tfoot>
-              <tr className="border-t-2 border-line-strong bg-surface-2/60 font-semibold">
+              <tr className="border-t border-line bg-surface-2/60 font-semibold">
                 {selectable && <td className={cellPad} />}
                 {columns.map((c) => (
                   <td
@@ -337,7 +337,7 @@ export function DataTable<T>({
       </div>
 
       {sorted.length > pageSize && (
-        <div className="border-t border-line px-3 py-2.5">
+        <div className="border-t border-line px-4 py-3">
           <Pagination page={page} pageCount={pageCount} onPageChange={setPage} total={sorted.length} pageSize={pageSize} />
         </div>
       )}
