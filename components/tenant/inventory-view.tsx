@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Badge,
   Button,
@@ -25,8 +25,10 @@ import {
   type Column,
 } from "@/components/ui";
 import { appConfig } from "@/lib/config";
-import { AppFrame } from "@/components/app/app-frame";
-import { products as seed, categories, type Product, type SellBy } from "@/lib/sample-data";
+import { useCurrentTenant } from "@/components/saas/tenant-frame";
+import { UpgradeModal } from "@/components/saas/upgrade-modal";
+import { categoriesFor, productsFor } from "@/lib/saas/demo-products";
+import type { Product, SellBy } from "@/lib/sample-data";
 import { formatCompact, formatMoney, formatNumber, formatQty, round } from "@/lib/utils";
 
 
@@ -54,9 +56,13 @@ const emptyForm: FormState = {
   reorderLevel: null,
 };
 
-export default function InventoryPage() {
+export function InventoryView() {
   const toast = useToast();
-  const [items, setItems] = useState<Product[]>(seed);
+  const { tenant, plan, role } = useCurrentTenant();
+  const categories = categoriesFor(tenant);
+  const canEdit = role !== "cashier" && role !== "viewer";
+  const [items, setItems] = useState<Product[]>(() => productsFor(tenant));
+  const [limitOpen, setLimitOpen] = useState(false);
   const [tab, setTab] = useState<Tab>("all");
   const [category, setCategory] = useState("");
 
@@ -86,7 +92,17 @@ export default function InventoryPage() {
     return list;
   }, [items, tab, category, low, out]);
 
+  // Open the add form from the top-bar "+" (…/inventory?new=1)
+  useEffect(() => {
+    if (new URLSearchParams(location.search).get("new") === "1") openNew();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const openNew = () => {
+    if (items.length >= plan.limits.items) {
+      setLimitOpen(true);
+      return;
+    }
     setForm(emptyForm);
     setErrors({});
     setEditing("new");
@@ -208,7 +224,7 @@ export default function InventoryPage() {
   const inTotal = (inQty ?? 0) * (inCost ?? 0);
 
   return (
-    <AppFrame active="/inventory">
+    <>
       <PageHeader
         title="Inventory"
         subtitle="Every item, live stock"
@@ -217,9 +233,11 @@ export default function InventoryPage() {
             <Button variant="outline" size="lg" leftIcon="download">
               Export
             </Button>
-            <Button size="lg" arrow onClick={openNew}>
-              Add item
-            </Button>
+            {canEdit && (
+              <Button size="lg" arrow onClick={openNew}>
+                Add item
+              </Button>
+            )}
           </>
         }
       />
@@ -257,7 +275,7 @@ export default function InventoryPage() {
           getRowId={(p) => p.id}
           searchPlaceholder="Search by name, SKU or category"
           selectable
-          onRowClick={openEdit}
+          onRowClick={canEdit ? openEdit : undefined}
           defaultSort={{ key: "name", dir: "asc" }}
           pageSize={8}
           toolbar={
@@ -472,6 +490,12 @@ export default function InventoryPage() {
           toast({ title: `${ids.size} item${ids.size > 1 ? "s" : ""} deleted`, tone: "danger" });
         }}
       />
-    </AppFrame>
+      <UpgradeModal
+        open={limitOpen}
+        onClose={() => setLimitOpen(false)}
+        title="Item limit reached"
+        reason={`The ${plan.name} plan allows ${formatNumber(plan.limits.items)} items. Upgrade to add more.`}
+      />
+    </>
   );
 }

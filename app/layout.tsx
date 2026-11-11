@@ -2,13 +2,14 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Hanken_Grotesk } from "next/font/google";
 import { ToastProvider } from "@/components/ui";
+import { SaasProvider } from "@/lib/saas/store";
 import { appConfig } from "@/lib/config";
 import "./globals.css";
 
 const hanken = Hanken_Grotesk({ subsets: ["latin"], variable: "--font-hanken", display: "swap" });
 
 export const metadata: Metadata = {
-  title: { default: appConfig.businessName, template: `%s · ${appConfig.businessName}` },
+  title: { default: appConfig.platformName, template: `%s · ${appConfig.platformName}` },
   description: "Stock, sales and accounts",
 };
 
@@ -19,7 +20,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html
       lang="en"
-      data-brand={appConfig.brand === "lime" ? undefined : appConfig.brand}
       className={hanken.variable}
       suppressHydrationWarning
     >
@@ -27,7 +27,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body>
-        <ToastProvider>{children}</ToastProvider>
+        <SaasProvider>
+          <ToastProvider>{children}</ToastProvider>
+        </SaasProvider>
       </body>
     </html>
   );

@@ -363,6 +363,10 @@ export interface AppShellProps {
   topbarEnd?: ReactNode;
   /** Bottom of the rail (e.g. help, logout) */
   railFooter?: ReactNode;
+  /** Strip above the top bar, e.g. "You are viewing as …" */
+  banner?: ReactNode;
+  /** Click on the workspace pill (switch business, go home) */
+  onBrandClick?: () => void;
   children: ReactNode;
 }
 
@@ -429,7 +433,7 @@ function NavList({ nav, activeHref, onNavigate }: { nav: NavSection[]; activeHre
   );
 }
 
-export function AppShell({ brand, nav, activeHref, user, topbar, topbarEnd, railFooter, children }: AppShellProps) {
+export function AppShell({ brand, nav, activeHref, user, topbar, topbarEnd, railFooter, banner, onBrandClick, children }: AppShellProps) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -446,9 +450,10 @@ export function AppShell({ brand, nav, activeHref, user, topbar, topbarEnd, rail
 
   return (
     <div className="min-h-dvh bg-surface">
+      {banner}
       {/* Top bar */}
       <header className="sticky top-0 z-30 flex h-[76px] items-center gap-3 bg-surface/90 px-4 backdrop-blur sm:px-6">
-        <WorkspacePill name={brand.name} subtitle={brand.subtitle} short={brand.short} logo={brand.logo} />
+        <WorkspacePill name={brand.name} subtitle={brand.subtitle} short={brand.short} logo={brand.logo} onClick={onBrandClick} />
         <div className="hidden min-w-0 flex-1 items-center gap-2 md:flex">{topbar}</div>
         <div className="ml-auto flex items-center gap-2">
           {topbarEnd}
@@ -462,15 +467,17 @@ export function AppShell({ brand, nav, activeHref, user, topbar, topbarEnd, rail
                 .split(" ")
                 .map((p) => p[0])
                 .slice(0, 2)
-                .join("")}
+                .join("")
+                .toUpperCase()}
             </span>
           )}
           <IconButton icon="menu" label="Open menu" variant="primary" onClick={() => setMenuOpen(true)} />
         </div>
       </header>
 
+      <div className="lg:flex">
       {/* Icon rail */}
-      <aside className="fixed top-[76px] bottom-0 left-0 z-20 hidden w-[84px] flex-col items-center gap-2 overflow-y-auto pt-2 pb-5 lg:flex">
+      <aside className="sticky top-[76px] z-20 hidden h-[calc(100dvh-76px)] w-[84px] shrink-0 flex-col items-center gap-2 overflow-y-auto pt-2 pb-5 lg:flex">
         {nav.map((section, si) => (
           <div key={si} className={cn("flex flex-col items-center gap-2", si > 0 && "mt-3 border-t border-line pt-5")}>
             {section.items.map((it) => (
@@ -505,7 +512,8 @@ export function AppShell({ brand, nav, activeHref, user, topbar, topbarEnd, rail
                     .split(" ")
                     .map((p) => p[0])
                     .slice(0, 2)
-                    .join("")}
+                    .join("")
+                    .toUpperCase()}
                 </span>
                 <div className="leading-tight">
                   <p className="text-sm font-semibold">{user.name}</p>
@@ -518,10 +526,11 @@ export function AppShell({ brand, nav, activeHref, user, topbar, topbarEnd, rail
       )}
 
       {/* Content canvas */}
-      <div className="lg:pl-[84px]">
+      <div className="min-w-0 flex-1">
         <main className="min-h-[calc(100dvh-76px)] rounded-t-xl bg-bg px-4 py-6 sm:px-8 sm:py-8 lg:rounded-tr-none lg:rounded-tl-[36px]">
           <div className="mx-auto w-full max-w-[1400px]">{children}</div>
         </main>
+      </div>
       </div>
     </div>
   );

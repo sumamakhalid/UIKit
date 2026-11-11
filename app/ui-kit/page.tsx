@@ -224,7 +224,7 @@ export default function UiKitPage() {
             ))}
           </ul>
           <Divider className="my-4" />
-          <a href="/inventory" className="flex items-center gap-1.5 px-2.5 text-sm font-semibold text-primary hover:underline">
+          <a href="/" className="flex items-center gap-1.5 px-2.5 text-sm font-semibold text-fg hover:underline">
             Example screen <Icon name="chevron-right" size={14} />
           </a>
         </nav>

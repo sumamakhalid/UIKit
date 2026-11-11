@@ -3,6 +3,9 @@
  * Colours live in app/globals.css (pick a [data-brand] preset or add one).
  */
 export const appConfig = {
+  /** Name of the SaaS product itself (shown on the landing page and super admin) */
+  platformName: "StockDesk",
+  platformShort: "SD",
   businessName: "Khalid Wire Store",
   shortName: "KWS",
   /** Accent preset from globals.css: lime (default), mint, sky, peach, lilac */
